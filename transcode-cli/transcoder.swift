@@ -218,7 +218,7 @@ class Transcoder {
         var res: String
         // Get movie path
         print("Movie path:")
-        res = input().replacingOccurrences(of: " ", with: "\\")
+        res = input().replacingOccurrences(of: " ", with: "\\ ")
         moviePath = res
         
         // Get desired name
