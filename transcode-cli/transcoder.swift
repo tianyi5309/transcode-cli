@@ -119,7 +119,6 @@ class Transcoder {
         print("Quit screen with Ctrl-A Ctrl-D\n")
         
         print("To grab file:    \(getMovieCommand)")
-        print("And then delete file:    " + "ssh root@tau.tianyi.io " + "\"rm /root/transcodes/\(movieName).mp4\"" + "\n")
         
         print("To delete server:    \(deleteServerCommand)\n")
     }
@@ -309,7 +308,7 @@ class Transcoder {
     
     
     var copyMovieCommand: String {
-        return "scp -o StrictHostKeyChecking=no -i /home/tianyi/.ssh/id_rsa " +  "root@tau.tianyi.io:" + moviePath + " /home/tianyi/movie"
+        return "scp -o StrictHostKeyChecking=no -i /home/tianyi/.ssh/id_rsa " +  "root@tau.tianyi.io:" + "\"" + moviePath + "\"" + " /home/tianyi/movie"
     }
     
     var transcodeCommand: String {
@@ -317,7 +316,7 @@ class Transcoder {
     }
     
     var sendMovieCommand: String {
-        return "scp -o StrictHostKeyChecking=no -i /home/tianyi/.ssh/id_rsa " + "/home/tianyi/output.mp4 " + "root@tau.tianyi.io:/root/transcodes/\(movieName).mp4"
+        return "scp -o StrictHostKeyChecking=no -i /home/tianyi/.ssh/id_rsa " + "/home/tianyi/output.mp4 " + "root@tau.tianyi.io:\"/root/transcodes/\(movieName).mp4\""
     }
     
     var deleteServerCommand: String {
@@ -329,7 +328,7 @@ class Transcoder {
     }
     
     var getMovieCommand: String {
-        return "scp root@tau.tianyi.io:/root/transcodes/\(movieName).mp4 " + "~/Movies/\(movieName).mp4"
+        return "scp root@tau.tianyi.io:\"/root/transcodes/\(movieName).mp4\" " + "~/Movies/\(movieName).mp4"
     }
 }
 
