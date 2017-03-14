@@ -81,8 +81,6 @@ class Transcoder {
         
         var file: String = ""
         
-//        file += "echo \"kappa\" > \"/home/tianyi/kappa.txt\"; sleep 50; echo \"keepo\" > \"/home/tianyi/keepo.txt\";"
-        
         file += "#!/bin/bash" + "\n"
         file += copyMovieCommand + "\n"
         file += transcodeCommand + "\n" 
@@ -122,6 +120,13 @@ class Transcoder {
         
         print("To delete server:    \(deleteServerCommand)\n")
     }
+    
+    
+    
+    
+    
+    
+    
     
     
     
@@ -213,14 +218,14 @@ class Transcoder {
         var res: String
         // Get movie path
         print("Movie path:")
-        res = input()
+        res = input().replacingOccurrences(of: " ", with: "\\")
         moviePath = res
         
         // Get desired name
         print("Movie name(\(movieName)):")
         res = input()
         if res != "" {
-            movieName = res
+            movieName = res.replacingOccurrences(of: " ", with: "\\")
         }
     }
     
@@ -299,7 +304,7 @@ class Transcoder {
     
     
     var copyMovieCommand: String {
-        return "scp -o StrictHostKeyChecking=no -i /home/tianyi/.ssh/id_rsa " +  "root@tau.tianyi.io:" + "\"" + moviePath + "\" " + "/home/tianyi/movie"
+        return "scp -o StrictHostKeyChecking=no -i /home/tianyi/.ssh/id_rsa " +  "root@tau.tianyi.io:" + moviePath + " /home/tianyi/movie"
     }
     
     var transcodeCommand: String {
@@ -307,7 +312,7 @@ class Transcoder {
     }
     
     var sendMovieCommand: String {
-        return "scp -o StrictHostKeyChecking=no -i /home/tianyi/.ssh/id_rsa " + "/home/tianyi/output.mp4 " + "root@tau.tianyi.io:\"/root/transcodes/\(movieName).mp4\""
+        return "scp -o StrictHostKeyChecking=no -i /home/tianyi/.ssh/id_rsa " + "/home/tianyi/output.mp4 " + "root@tau.tianyi.io:/root/transcodes/\(movieName).mp4"
     }
     
     var deleteServerCommand: String {
@@ -319,7 +324,7 @@ class Transcoder {
     }
     
     var getMovieCommand: String {
-        return "scp root@tau.tianyi.io:\"/root/transcodes/\(movieName)\".mp4 " + "\"~/Movies/\(movieName).mp4\""
+        return "scp root@tau.tianyi.io:/root/transcodes/\(movieName).mp4 " + "~/Movies/\(movieName).mp4"
     }
 }
 
