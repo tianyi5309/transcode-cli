@@ -19,13 +19,16 @@ class Transcoder {
     var moviePath: String = "/some/movie/path"
     var movieName: String = "movie"
     
+    var vq: String = "22"
+    var preset: String = "medium"
+    var denoise: String = "light"
+    
     init() {
         // Set up default options
         defaultServerOptions()
     }
     
     func createServer() {
-        print("Setting up server")
         setServer()
         
         
@@ -72,17 +75,18 @@ class Transcoder {
          gcloud compute instances delete $(NAME) --zone=($ZONE) --quiet
          */
         setMovie()
+        setEncode()
         
         print("Writing setup.sh to /tmp/setup.sh...")
         
         var file: String = ""
         
-        file += "echo \"kappa\" > \"/home/tianyi/kappa.txt\"; sleep 50; echo \"keepo\" > \"/home/tianyi/keepo.txt\";"
+//        file += "echo \"kappa\" > \"/home/tianyi/kappa.txt\"; sleep 50; echo \"keepo\" > \"/home/tianyi/keepo.txt\";"
         
-//        file += "#!/bin/bash" + "\n"
-//        file += copyMovieCommand + "\n"
-//        file += transcodeCommand + "\n" 
-//        file += sendMovieCommand + "\n"
+        file += "#!/bin/bash" + "\n"
+        file += copyMovieCommand + "\n"
+        file += transcodeCommand + "\n" 
+        file += sendMovieCommand + "\n"
         file += deleteServerCommand + "\n"
         
         do {
@@ -155,6 +159,7 @@ class Transcoder {
     
     func setServer() {
         // Provide some settings for the server!
+        print("Setting up server")
         var res: String
         print("Server name(\(name)):")
         res = input()
@@ -186,6 +191,31 @@ class Transcoder {
         res = input()
         if res != "" {
             movieName = res
+        }
+    }
+    
+    func setEncode() {
+        print("Setting encode options:")
+        var res: String
+        // video quality
+        print("Video quality(\(vq)):")
+        res = input()
+        if res != "" {
+            vq = res
+        }
+        
+        // preset
+        print("Preset(\(preset))[veryfast/fast/medium/slow]:")
+        res = input()
+        if res != "" {
+            preset = res
+        }
+        
+        // Denoise
+        print("Denoise(\(denoise))[ultralight/light/medium/strong]:")
+        res = input()
+        if res != "" {
+            denoise = res
         }
     }
     
@@ -238,7 +268,7 @@ class Transcoder {
     }
     
     var transcodeCommand: String {
-        return "HandBrakeCLI -i /home/tianyi/movie -o /home/tianyi/output.mp4 -e x264 -q 22 -B 160 --encoder-preset fast -f av_mp4 --hqdn3d=light"
+        return "HandBrakeCLI -i /home/tianyi/movie -o /home/tianyi/output.mp4 --audio-lang-list \"eng\" --subtitle-lang-list \"eng\" -e x264 -q \(vq) -Q 4 --encoder-preset \(preset) --hqdn3d=\(denoise)"
     }
     
     var sendMovieCommand: String {
