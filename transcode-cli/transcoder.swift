@@ -19,9 +19,9 @@ class Transcoder {
     var moviePath: String = "/some/movie/path"
     var movieName: String = "movie"
     
-    var vq: String = "22"
+    var vq: String = "20"
     var preset: String = "medium"
-    var denoise: String = "light"
+    var denoise: String = "ultralight"
     
     init() {
         // Set up default options
@@ -112,14 +112,19 @@ class Transcoder {
     func runScript() {
 //        ssh root@remoteserver screen -d -m ./script
         print("Running script...")
-        let response = runQuery(path: "/usr/bin/ssh", arguments: runScriptQuery)
-        print(response)
+        let _ = runQuery(path: "/usr/bin/ssh", arguments: runScriptQuery) // response not expected
+        
+        print("Please wait for the file to be downloaded.")
+        print("To check progress:   ssh tianyi@\(ip)    then    screen -r")
+        print("Quit screen with Ctrl-A Ctrl-D\n")
+        
+        print("To grab file:    \(getMovieCommand)\n")
+        
+        print("To delete server:    \(deleteServerCommand)\n")
     }
     
-    var runScriptQuery: [String] {
-//        return "scp -o StrictHostKeyChecking=no -i /home/tianyi/.ssh/id_rsa " + "/home/tianyi/output.mp4 " + "root@tau.tianyi.io:/root/transcodes/\(movieName).mp4"
-        return ["-o", "StrictHostKeyChecking=no", "-i", "/Users/tianyi/.ssh/id_rsa", "tianyi@\(ip)", "/usr/bin/screen", "-d", "-m", "/home/tianyi/setup.sh"]
-    }
+    
+    
     
     
     
@@ -145,7 +150,7 @@ class Transcoder {
 //        serverOptions["zone"] = "europe-west1-d"
         serverOptions["machine-type"] = "n1-highcpu-8"
         serverOptions["subnet"] = "default"
-        serverOptions["metadata"] = "startup-script=apt-get install ffmpeg -y"
+        serverOptions["metadata"] = "startup-script=add-apt-repository ppa:stebbins/handbrake-releases -y; apt-get update -y; apt-get install handbrake-cli -y"
         serverOptions["no-restart-on-failure"] = ""
         serverOptions["maintenance-policy"] = "TERMINATE"
         serverOptions["preemptible"] = ""
@@ -155,6 +160,23 @@ class Transcoder {
         serverOptions["boot-disk-size"] = "40"
         serverOptions["boot-disk-type"] = "pd-ssd"
         serverOptions["boot-disk-device-name"] = name
+    }
+    
+    func machineType(core: Int) -> String {
+        switch core {
+        case 1:
+            return "custom-1-1024"
+        case 2:
+            return "n1-highcpu-2"
+        case 4:
+            return "n1-highcpu-4"
+        case 6:
+            return "custom-6-5632"
+        case 8:
+            return "n1-highcpu-8"
+        default:
+            return "ERROR! PLEASE RETRY"
+        }
     }
     
     func setServer() {
@@ -176,10 +198,18 @@ class Transcoder {
             zone = res
         }
         
+        print("Core number(8)[1/2/4/6/8]:")
+        res = input()
+        
+        if res != "" {
+            serverOptions["machine-type"] = machineType(core: Int(res)!)
+        }
+        
     }
     
     func setMovie() {
         print("Setting up movie:")
+        print("Use readlink -f file to get its full path")
         var res: String
         // Get movie path
         print("Movie path:")
@@ -196,6 +226,7 @@ class Transcoder {
     
     func setEncode() {
         print("Setting encode options:")
+        print("Please use ffmpeg to check that the language options are available. Otherwise, quit. Audio selecting has not been implemented/")
         var res: String
         // video quality
         print("Video quality(\(vq)):")
@@ -262,9 +293,13 @@ class Transcoder {
         return ["-o", "StrictHostKeyChecking=no", "-i", "/Users/tianyi/.ssh/id_rsa", serverKeyPath, "tianyi@\(ip):/home/tianyi/.ssh/id_rsa"]
     }
     
+    var runScriptQuery: [String] {
+        return ["-o", "StrictHostKeyChecking=no", "-i", "/Users/tianyi/.ssh/id_rsa", "tianyi@\(ip)", "/usr/bin/screen", "-d", "-m", "/home/tianyi/setup.sh"]
+    }
+    
     
     var copyMovieCommand: String {
-        return "scp -o StrictHostKeyChecking=no -i /home/tianyi/.ssh/id_rsa " +  "root@tau.tianyi.io:\"" + moviePath + "\" " + "/home/tianyi/movie"
+        return "scp -o StrictHostKeyChecking=no -i /home/tianyi/.ssh/id_rsa " +  "root@tau.tianyi.io:" + "\"" + moviePath + "\" " + "/home/tianyi/movie"
     }
     
     var transcodeCommand: String {
@@ -272,7 +307,7 @@ class Transcoder {
     }
     
     var sendMovieCommand: String {
-        return "scp -o StrictHostKeyChecking=no -i /home/tianyi/.ssh/id_rsa " + "/home/tianyi/output.mp4 " + "root@tau.tianyi.io:/root/transcodes/\(movieName).mp4"
+        return "scp -o StrictHostKeyChecking=no -i /home/tianyi/.ssh/id_rsa " + "/home/tianyi/output.mp4 " + "root@tau.tianyi.io:\"/root/transcodes/\(movieName).mp4\""
     }
     
     var deleteServerCommand: String {
@@ -283,6 +318,9 @@ class Transcoder {
         return ["-o", "StrictHostKeyChecking=no", "-i", "/Users/tianyi/.ssh/id_rsa", "/tmp/setup.sh", "tianyi@\(ip):/home/tianyi/setup.sh"]
     }
     
+    var getMovieCommand: String {
+        return "scp root@tau.tianyi.io:\"/root/transcodes/\(movieName)\".mp4 " + "\"~/Movies/\(movieName).mp4\""
+    }
 }
 
 //extension Array {
