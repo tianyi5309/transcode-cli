@@ -6,6 +6,8 @@
 //  Copyright © 2017 tianyi. All rights reserved.
 //
 
+// TODO: - Allow toggling of preempted instances
+
 import Foundation
 
 class Transcoder {
@@ -225,7 +227,7 @@ class Transcoder {
         print("Movie name(\(movieName)):")
         res = input()
         if res != "" {
-            movieName = res.replacingOccurrences(of: " ", with: "\\")
+            movieName = res.replacingOccurrences(of: " ", with: "\\ ")
         }
     }
     
