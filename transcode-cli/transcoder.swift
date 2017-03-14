@@ -118,10 +118,13 @@ class Transcoder {
         print("To check progress:   ssh tianyi@\(ip)    then    screen -r")
         print("Quit screen with Ctrl-A Ctrl-D\n")
         
-        print("To grab file:    \(getMovieCommand)\n")
+        print("To grab file:    \(getMovieCommand)")
+        print("And then delete file:    " + "ssh root@tau.tianyi.io " + "\"rm /root/transcodes/\(movieName).mp4\"" + "\n")
         
         print("To delete server:    \(deleteServerCommand)\n")
     }
+    
+    
     
     
     
