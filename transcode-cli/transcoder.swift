@@ -139,7 +139,7 @@ class Transcoder {
     
     var changeContainerQuery: [String] {
         let destinationPath = "/transcodes/private/" + movieName + ".mp4"
-        return ["-o", "StrictHostKeyChecking=no", "-i", "/Users/tianyi/.ssh/id_rsa", "root@tau.tianyi.io", "/usr/bin/screen", "-d", "-m", "/usr/bin/ffmpeg", "-i", moviePath, "-map", "0:m:language:eng", "-map", "-0:v", "-map", "0:v", "-acodec", "copy", "-vcodec", "copy", "-scodec", "mov_text", "-movflags", "faststart", destinationPath, "-y"]
+        return ["-o", "StrictHostKeyChecking=no", "-i", "/Users/tianyi/.ssh/id_rsa", "root@tau.tianyi.io", "/usr/bin/screen", "-d", "-m", "/usr/bin/ffmpeg", "-i", moviePath, "-map", "0:m:language:eng?", "-map", "-0:v?", "-map", "0:v?", "-acodec", "copy", "-vcodec", "copy", "-scodec", "mov_text", "-movflags", "faststart", destinationPath, "-y"]
     }
     
     
