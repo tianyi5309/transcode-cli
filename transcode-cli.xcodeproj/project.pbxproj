@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0574459A1E7677FF005BFD13 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 057445991E7677FF005BFD13 /* main.swift */; };
+		05B3F38C1E7902CF003345A1 /* Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05B3F38B1E7902CF003345A1 /* Functions.swift */; };
 		05BAE9DC1E76F26C00CD22AC /* transcoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05BAE9DB1E76F26C00CD22AC /* transcoder.swift */; };
 /* End PBXBuildFile section */
 
@@ -26,6 +27,7 @@
 /* Begin PBXFileReference section */
 		057445961E7677FF005BFD13 /* transcode-cli */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "transcode-cli"; sourceTree = BUILT_PRODUCTS_DIR; };
 		057445991E7677FF005BFD13 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		05B3F38B1E7902CF003345A1 /* Functions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Functions.swift; sourceTree = "<group>"; };
 		05BAE9DB1E76F26C00CD22AC /* transcoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = transcoder.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -61,6 +63,7 @@
 			children = (
 				057445991E7677FF005BFD13 /* main.swift */,
 				05BAE9DB1E76F26C00CD22AC /* transcoder.swift */,
+				05B3F38B1E7902CF003345A1 /* Functions.swift */,
 			);
 			path = "transcode-cli";
 			sourceTree = "<group>";
@@ -126,6 +129,7 @@
 			files = (
 				05BAE9DC1E76F26C00CD22AC /* transcoder.swift in Sources */,
 				0574459A1E7677FF005BFD13 /* main.swift in Sources */,
+				05B3F38C1E7902CF003345A1 /* Functions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

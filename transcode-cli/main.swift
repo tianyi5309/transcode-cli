@@ -9,8 +9,14 @@
 import Foundation
 
 let transcoder = Transcoder()
-transcoder.createServer()
-transcoder.transferKey()
-transcoder.generateScript()
-transcoder.transferScript()
-transcoder.runScript()
+print("Only change video container(no):")
+let res = input()
+if res == "" {
+    transcoder.createServer()
+    transcoder.transferKey()
+    transcoder.generateScript()
+    transcoder.transferScript()
+    transcoder.runScript()
+} else {
+    transcoder.changeContainer()
+}
