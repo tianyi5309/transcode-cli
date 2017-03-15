@@ -118,7 +118,7 @@ class Transcoder {
         print("To check progress:   ssh tianyi@\(ip)    then    screen -r")
         print("Quit screen with Ctrl-A Ctrl-D\n")
         
-        print("To grab file:    \(getMovieCommand)")
+//        print("To grab file:    \(getMovieCommand)")
         
         print("To delete server:    \(deleteServerCommand)\n")
     }
@@ -316,7 +316,7 @@ class Transcoder {
     }
     
     var sendMovieCommand: String {
-        return "scp -o StrictHostKeyChecking=no -i /home/tianyi/.ssh/id_rsa " + "/home/tianyi/output.mp4 " + "root@tau.tianyi.io:\"/root/transcodes/\(movieName).mp4\""
+        return "scp -o StrictHostKeyChecking=no -i /home/tianyi/.ssh/id_rsa " + "/home/tianyi/output.mp4 " + "root@tau.tianyi.io:\"/transcodes/\(movieName).mp4\""
     }
     
     var deleteServerCommand: String {
@@ -328,8 +328,22 @@ class Transcoder {
     }
     
     var getMovieCommand: String {
-        return "scp root@tau.tianyi.io:\"/root/transcodes/\(movieName).mp4\" " + "~/Movies/\(movieName).mp4"
+        return "scp root@tau.tianyi.io:\"/transcodes/\(movieName).mp4\" " + "~/Movies/\(movieName).mp4"
     }
+    
+//    func scp(source: String, destination: String, key: String, full: Bool = true) -> [String] {
+//        var res: [String] = []
+//        if (full) {
+//            res.append("scp")
+//        }
+//        res.append("-o")
+//        res.append("StrictHostKeyChecking=no")
+//        res.append["-i"];
+//        res.append(key)
+//        res.append[source]
+//        res.append[destination]
+//        return res
+//    }
 }
 
 //extension Array {
