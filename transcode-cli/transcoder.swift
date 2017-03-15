@@ -312,11 +312,11 @@ class Transcoder {
     }
     
     var transcodeCommand: String {
-        return "HandBrakeCLI -i /home/tianyi/movie -o /home/tianyi/output.mp4 --audio-lang-list \"eng\" --subtitle-lang-list \"eng\" -e x264 -q \(vq) -Q 4 --encoder-preset \(preset) --hqdn3d=\(denoise)"
+        return "HandBrakeCLI -i /home/tianyi/movie -o /home/tianyi/output.mp4 -O --audio-lang-list \"eng\" --subtitle-lang-list \"eng\" -e x264 -q \(vq) -Q 4 --encoder-preset \(preset) --hqdn3d=\(denoise)"
     }
     
     var sendMovieCommand: String {
-        return "scp -o StrictHostKeyChecking=no -i /home/tianyi/.ssh/id_rsa " + "/home/tianyi/output.mp4 " + "root@tau.tianyi.io:\"/transcodes/\(movieName).mp4\""
+        return "scp -o StrictHostKeyChecking=no -i /home/tianyi/.ssh/id_rsa " + "/home/tianyi/output.mp4 " + "root@tau.tianyi.io:\"/transcodes/private/\(movieName).mp4\""
     }
     
     var deleteServerCommand: String {
@@ -328,7 +328,7 @@ class Transcoder {
     }
     
     var getMovieCommand: String {
-        return "scp root@tau.tianyi.io:\"/transcodes/\(movieName).mp4\" " + "~/Movies/\(movieName).mp4"
+        return "scp root@tau.tianyi.io:\"/transcodes/private/\(movieName).mp4\" " + "~/Movies/\(movieName).mp4"
     }
     
 //    func scp(source: String, destination: String, key: String, full: Bool = true) -> [String] {
