@@ -131,14 +131,15 @@ class Transcoder {
     
     func changeContainer() {
         setMovie()
-//        ffmpeg -i Black.Mirror.S01E02.720p.WEB-DL.2xRus.Eng.mkv -map 0:m:language:eng -map -0:v -map 0:v -c copy -movflags faststart output.mp4
+//        ffmpeg -i Black.Mirror.S01E02.720p.WEB-DL.2xRus.Eng.mkv -map 0:m:language:eng -map -0:v -map 0:v -vcodec copy -acodec copy -scodec mov_text -movflags faststart output.mp4
         print("Transcoding...")
+        print(changeContainerQuery.joined(separator: " "))
         let _ = runQuery(path: "/usr/bin/ssh", arguments: changeContainerQuery)
     }
     
     var changeContainerQuery: [String] {
         let destinationPath = "/transcodes/private/" + movieName + ".mp4"
-        return ["-o", "StrictHostKeyChecking=no", "-i", "/Users/tianyi/.ssh/id_rsa", "root@tau.tianyi.io", "/usr/bin/screen", "-d", "-m", "/usr/bin/ffmpeg", "-i", moviePath, "-map", "0:m:language:eng", "-map", "-0:v", "-map", "0:v", "-c", "copy", "-movflags", "faststart", destinationPath]
+        return ["-o", "StrictHostKeyChecking=no", "-i", "/Users/tianyi/.ssh/id_rsa", "root@tau.tianyi.io", "/usr/bin/screen", "-d", "-m", "/usr/bin/ffmpeg", "-i", moviePath, "-map", "0:m:language:eng", "-map", "-0:v", "-map", "0:v", "-acodec", "copy", "-vcodec", "copy", "-scodec", "mov_text", "-movflags", "faststart", destinationPath, "-y"]
     }
     
     
