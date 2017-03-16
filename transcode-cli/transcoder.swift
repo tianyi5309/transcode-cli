@@ -240,14 +240,14 @@ class Transcoder {
         var res: String
         // Get movie path
         print("Movie path:")
-        res = input().replacingOccurrences(of: " ", with: "\\ ")
+        res = input().replacingOccurrences(of: " ", with: "\\ ").replacingOccurrences(of: "(", with: "\\(").replacingOccurrences(of: ")", with: "\\)")
         moviePath = res
         
         // Get desired name
         print("Movie name(\(movieName)):")
         res = input()
         if res != "" {
-            movieName = res.replacingOccurrences(of: " ", with: "\\ ")
+            movieName = res.replacingOccurrences(of: " ", with: "\\ ").replacingOccurrences(of: "(", with: "\\(").replacingOccurrences(of: ")", with: "\\)")
         }
     }
     
