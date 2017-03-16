@@ -21,9 +21,11 @@ class Transcoder {
     var moviePath: String = "/some/movie/path"
     var movieName: String = "movie"
     
-    var vq: String = "20"
+    var vq: String = "22"
     var preset: String = "medium"
     var denoise: String = "ultralight"
+    
+//    var ffmpegMap: String = 
     
     init() {
         // Set up default options
@@ -328,7 +330,7 @@ class Transcoder {
     }
     
     var transcodeCommand: String {
-        return "HandBrakeCLI -i /home/tianyi/movie -o /home/tianyi/output.mp4 -O --audio-lang-list \"eng\" --subtitle-lang-list \"eng\" -e x264 -q \(vq) -Q 4 --encoder-preset \(preset) --hqdn3d=\(denoise)"
+        return "HandBrakeCLI -i /home/tianyi/movie -o /home/tianyi/output.mp4 -O --audio-lang-list \"eng\" --subtitle-lang-list \"und\" --all-subtitles -e x264 -q \(vq) -Q 4 --encoder-preset \(preset) --hqdn3d=\(denoise)"
     }
     
     var sendMovieCommand: String {
